@@ -1,0 +1,42 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' Objective-C ViewController
+class ViewController as "ViewController (Objective-C)" {
+    + viewDidLoad()
+    + addChildViewController()
+    + addSubview()
+}
+
+' Objective-C Arithmetic
+class Arithmetic as "Arithmetic (Objective-C)" {
+    + (int)add:(int)a with:(int)b
+    + (int)subtract:(int)a with:(int)b
+    + (int)multiply:(int)a with:(int)b
+    + (float)divide:(int)a with:(int)b
+}
+
+' SwiftUIViewWrapper (Bridging class between SwiftUI and Objective-C)
+class SwiftUIViewWrapper as "SwiftUIViewWrapper (SwiftUI)" {
+    + createSwiftUIView(): UIViewController
+}
+
+' SwiftUI View
+struct SwiftUIView as "SwiftUIView (SwiftUI)" {
+    + body: some View
+}
+
+' UIKit UIHostingController (used to embed SwiftUI in UIKit)
+class UIHostingController as "UIHostingController (SwiftUI)" {
+    + rootView: SwiftUIView
+}
+
+' Relationships
+ViewController --> SwiftUIViewWrapper : "calls"
+
+SwiftUIViewWrapper --> UIHostingController : "returns"
+
+UIHostingController --> SwiftUIView : "wraps"
+SwiftUIView --> Arithmetic : "calls"
+
+@enduml
